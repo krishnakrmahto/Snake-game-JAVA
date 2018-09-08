@@ -40,7 +40,22 @@ public class Snake {
         snakePoints.set(i, snakePoints.get(i - 1));
       }
       snakePoints.set(0, newHead);
+      if(elongate) {
+        snakePoints.add(last);
+        elongate = false;
+      }
     }
+  }
+
+  public boolean snakeCollision() {
+    int x = this.getHeadX();
+    int y = this.getHeadY();
+
+    for(int i = 1; i < snakePoints.size(); i++) {
+      if(snakePoints.get(i).getX() == x && snakePoints.get(i).getY() == y)
+        return true;
+    }
+    return false;
   }
 
   public boolean isMoving() {
@@ -71,5 +86,13 @@ public class Snake {
   public int getHeadX() {
     return this.snakePoints.get(0).getX(); // invokes getX() method defined in Point class
                                           // since 0th element is a Point object
+  }
+
+  public int getHeadY() {
+    return this.snakePoints.get(0).getY();
+  }
+
+  public void setElongate(boolean b) {
+    elongate = b;
   }
 }
