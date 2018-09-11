@@ -27,10 +27,10 @@ public class Token {
   }
 
   public boolean snakeCollision() {
-    int snakeX = snake.getHeadX() + 2;
-    int snakeY = snake.getHeadY() + 2;
-    if(snakeX >= x-1 && snakeX <= (x+7))
-      if(snakeY >= y-1 && snakeY <= (y+7)) {
+    int snakeX = snake.getHeadX() + 2; // x coordinate of centre of the head of the snake
+    int snakeY = snake.getHeadY() + 2; // y coordinate of centre of the head of the snake
+    if(snakeX >= x-1 && snakeX <= (x+7)) // this ....(continues below)
+      if(snakeY >= y-1 && snakeY <= (y+7)) { // and this make sure that any portion of snake's head hits any portion of the token
         changePosition();
         score++;
         snake.setElongate(true);

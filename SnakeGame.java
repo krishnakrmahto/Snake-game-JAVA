@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import java.awt.Image;
 
-public class SnakeGame extends Applet implements Runnable, KeyListener {
+public class SnakeGame extends Applet implements Runnable, KeyListener, MouseListener {
 
   // Setting up reference variables to support double buffer for graphics..\
   // rendering and updation.
@@ -17,15 +20,18 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
   Snake snake;
   boolean gameOver;
   Token token;
+  int mouseClickCounter = 0;
+  int beforePauseXDir, beforePauseYDir;
 
   public void init() {
     this.resize(400, 400);
     boolean gameOver = false;
-    img = createImage(400, 400);
+    img = createImage(400, 400); // off-screen image, ie, image is not a part of the applet window
     graphics = img.getGraphics(); // this graphics is currently not a part of Applet window
                                   // the graphics object is the graphics context for drawing an off-screen image
 
     this.addKeyListener(this);
+    this.addMouseListener(this);
     snake = new Snake();
     token = new Token(snake);
     thread = new Thread(this);
@@ -62,7 +68,7 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
   }
 
   public void run() {
-    for(;;) {
+    for(;;) { // infinite loop
 
       if(!gameOver) {
         snake.move();
@@ -127,6 +133,40 @@ public class SnakeGame extends Applet implements Runnable, KeyListener {
   }
 
   public void keyTyped(KeyEvent kEvent) {
+
+  }
+
+  public void mouseClicked(MouseEvent mEvent) {
+    mouseClickCounter++;
+
+    if(mouseClickCounter % 2 == 0) {
+      beforePauseXDir = snake.getXDir();
+      beforePauseYDir = snake.getYDir();
+      snake.setIsMoving(false);
+      snake.setXDir(0);
+      snake.setYDir(0);
+      showStatus("Game paused.");
+    }
+    else {
+      snake.setXDir(beforePauseXDir);
+      snake.setYDir(beforePauseYDir);
+      showStatus("Hope you're enjoying the classical king of games!");
+    }
+
+  }
+  public void mouseEntered(MouseEvent e) {
+
+  }
+  public void mouseExited(MouseEvent e) {
+
+  }
+  public void mousePressed(MouseEvent e) {
+
+  }
+  public void mouseReleased(MouseEvent e) {
+
+  }
+  public static void main(String[] args) {
 
   }
 }
